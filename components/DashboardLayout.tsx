@@ -21,16 +21,18 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
   }
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-100 w-full">
       {/* Sidebar */}
-      <Sidebar open={sidebarOpen} />
+      <div className={`${sidebarOpen ? 'w-64' : 'w-20'} transition-all duration-300`}>
+        <Sidebar open={sidebarOpen} />
+      </div>
       
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top Bar */}
         <header className="bg-white shadow-sm border-b border-gray-200">
-          <div className="flex items-center justify-between px-6 py-4">
-            <div className="flex items-center">
+          <div className="flex items-center justify-between px-6 py-4 h-16">
+            <div className="flex items-center gap-4">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none transition"
@@ -39,20 +41,22 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
-              <h1 className="ml-4 text-xl font-semibold text-gray-900">AI EdTech</h1>
+              <h1 className="text-xl font-semibold text-gray-900">AI EdTech</h1>
             </div>
             
             {/* User Menu */}
             <div className="relative">
               <button
                 onClick={() => setShowUserMenu(!showUserMenu)}
-                className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-100 transition"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100 transition"
               >
                 <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">
                   {user?.email?.[0]?.toUpperCase()}
                 </div>
-                <span className="text-sm font-medium text-gray-700">{user?.email}</span>
-                <svg className="h-4 w-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span className="text-sm font-medium text-gray-700 max-w-[200px] truncate">{user?.email}</span>
+                <svg className={`h-4 w-4 text-gray-600 transition-transform ${
+                  showUserMenu ? 'rotate-180' : ''
+                }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                 </svg>
               </button>
@@ -60,7 +64,10 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
               {showUserMenu && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
                   <button
-                    onClick={() => router.push('/dashboard/settings')}
+                    onClick={() => {
+                      router.push('/dashboard/settings')
+                      setShowUserMenu(false)
+                    }}
                     className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
                   >
                     ⚙️ Settings
@@ -78,7 +85,7 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
         </header>
         
         {/* Main Content Area */}
-        <main className="flex-1 overflow-auto bg-gray-50 p-6">
+        <main className="flex-1 overflow-auto bg-gray-50 p-6 w-full">
           {children}
         </main>
       </div>

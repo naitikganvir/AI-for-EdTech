@@ -20,7 +20,7 @@ export default function Sidebar({ open }: SidebarProps) {
   return (
     <aside className={`${
       open ? 'w-64' : 'w-20'
-    } bg-gray-900 text-white transition-all duration-300 hidden md:flex md:flex-col shadow-lg overflow-y-auto`}>
+    } bg-gray-900 text-white transition-all duration-300 flex flex-col shadow-lg overflow-y-auto`}>
       {/* Logo */}
       <div className="flex items-center justify-center p-4 border-b border-gray-800">
         <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-lg flex items-center justify-center text-lg font-bold">
